@@ -7,11 +7,11 @@ import RRDBNet_arch as arch
 
 model_path = 'dataset/ESRGAN.pth'#ESRGAN DATASET
 
-device = torch.device('cpu')
+device = torch.device('cpu')#Device used for trainning
 
-test_img_folder = 'lowres/*'
+test_img_folder = 'lowres/*'#lowres image folder
 
-model = arch.RRDBNet(3, 3, 64, 23, gc=32)
+model = arch.RRDBNet(3, 3, 64, 23, gc=32)#RRDBNet Module Parameter
 model.load_state_dict(torch.load(model_path), strict=True)
 model.eval()
 model = model.to(device)
@@ -32,4 +32,4 @@ for path in glob.glob(test_img_folder):
         output = model(img_LR).data.squeeze().float().cpu().clamp_(0, 1).numpy()
     output = np.transpose(output[[2, 1, 0], :, :], (1, 2, 0))
     output = (output * 255.0).round()
-    cv2.imwrite('highres/{:s}_highres.png'.format(base), output)
+    cv2.imwrite('highres/{:s}_highres1.png'.format(base), output)
